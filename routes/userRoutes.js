@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {addfinder, registerUser, deleteFinder, getFinder, 
     getallFinders, resetPassword, updatePassword, logout,
-     updateUser, loginUser, finderlog, gateway} = require('../controllers/userController');
+     updateUser, loginUser, finderlog, gateway, userprofile, updatefinder} = require('../controllers/userController');
 
      router.post('/addfinder', addfinder);
      router.post('/register', registerUser);
@@ -18,5 +18,7 @@ const {addfinder, registerUser, deleteFinder, getFinder,
      router.put('/login', loginUser);
      router.put('/finderlog', finderlog);
      router.get('/findall', gateway);
+     router.get('/profile', userprofile);
+     router.put('/updatefinder/:id', updatefinder);
 
      module.exports = router;

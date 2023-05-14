@@ -62,6 +62,7 @@ const registerUser =  asyncHandler(async(req, res)=>{
         firstname: findUser?.firstname,
         lastname: findUser?.lastname,
         email: findUser?.email,
+        role: findUser?.role,
         token: generateToken(findUser?._id)
       });     
 
@@ -90,7 +91,12 @@ const registerUser =  asyncHandler(async(req, res)=>{
       res.json({
         _id: findUser?._id,
         finder_name: findUser?.finder_name,
-        email: findUser?.location,
+        email: findUser?.email,
+        role: findUser?.role,
+        location: findUser?.location,
+        nearby_places: findUser?.nearby_places,
+        cars_way: findUser?.cars_way,
+        transport_way: findUser?.transport_way,
         token: generateToken(findUser?._id)
       });     
 
@@ -163,19 +169,11 @@ const registerUser =  asyncHandler(async(req, res)=>{
 
  const addfinder = asyncHandler(async(req, res)=>{
 
-     const {email} = req.body;
+    console.log(req.body);
       try{
 
-        const findone = await Finder.findOne({email:email});
-
-        if(findone){
-          res.json({msg:"user exists"})
-        }else{
-
-          const addnew = await Finder.create(req.body);
+        const addnew = await Finder.create(req.body);
           res.json(addnew);
-
-        }
         
         
 
@@ -259,8 +257,60 @@ const resetPassword = asyncHandler(async(req, res)=>{
   await user.save();
   res.json(user);
 });
+const userprofile = asyncHandler(async(req, res)=>{
+  const{refreshToken} = req.cookies;
+console.log(refreshToken);
+    
+  try{
+    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+   console.log(decoded);
+   const findone = await User.findById(decoded.id);
+//console.log(findone);
+  if(findone){
+    
+   const user = await User.findById(decoded.id);
+    
+   res.json(user);
+      
+    }else{
+    
+    const user = await Finder.findById(decoded.id);
+    res.json(user);
+
+  }
+    
+}catch(error){
+throw new Error(error);
+}
+})
+
+const updatefinder = asyncHandler(async(req, res)=>{
+  const {id} = req.params;
+  const {finder_name, email, location, cipa, nearby_places, transport_way,
+         contact} = req?.body;
+         console.log(req.body);
+  try{
+
+    const updatefinder = await Finder.findByIdAndUpdate(id, {
+            finder_name: finder_name,
+            email: email,
+            location: location,
+            cipa: cipa,
+            nearby_places: nearby_places,
+            transport_way: transport_way,
+            contact: contact
+        }, {
+          new: true
+        });
+        res.json(updatefinder);
+
+  }catch(error){
+    throw new Error(error);
+  }
+
+})
 
 
-module.exports = {addfinder, registerUser, deleteFinder, getFinder, 
+module.exports = {updatefinder, addfinder, registerUser, deleteFinder, getFinder, 
                   getallFinders, resetPassword, updatePassword, logout,
-                   updateUser, handleRefreshToken, loginUser, finderlog, gateway}
+                   updateUser, handleRefreshToken, loginUser, finderlog, gateway, userprofile}

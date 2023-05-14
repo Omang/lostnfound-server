@@ -9,7 +9,8 @@ const finderSchema = new mongoose.Schema({
     cars_way: {type:String},
     transport_way: {type:String},
     password: {type:String},
-    email: {type:String, required: true, unique: true},
+    contact: {type:Number},
+    email: {type:String},
     refreshToken: {type:String},
     role: {type: String, default:"user"}
     
