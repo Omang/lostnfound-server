@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const finderSchema = new mongoose.Schema({
     finder_name:{type:String},
@@ -21,11 +21,11 @@ finderSchema.pre('save', async function(next){
         next();
     }
     const salt = await bcrypt.genSaltSync(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    this.password = await bcrypt.hashSync(this.password, salt);
     next();
 })
 finderSchema.methods.isPasswordMatched = async function(enteredPassword){
-    return await bcrypt.compare(enteredPassword, this.password);
+    return await bcrypt.compareSync(enteredPassword, this.password);
 }
 
 module.exports = mongoose.model('Finder', finderSchema);
