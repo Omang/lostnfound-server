@@ -167,15 +167,12 @@ const collectDoc = asyncHandler(async(req, res)=>{
 
 });
 const finderDocs = asyncHandler(async(req, res)=>{
-    const {refreshToken} = req.cookies;
+    const {id} = req.params;
    try{
 
 
-    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
 
-    const finder = decoded.id;
-
-    const alldata = await Doc.find({finder:{"$in" : [finder]}}).populate("doc_type");
+    const alldata = await Doc.find({finder:{"$in" : [id]}}).populate("doc_type");
      
      res.json(alldata);
 

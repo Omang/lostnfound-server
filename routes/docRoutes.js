@@ -17,7 +17,7 @@ const photosMiddleware = multer({dest:'uploads/'});
     router.get('/getCat/:id', getCat);
     router.get('/allcats', allCat);
     router.post('/upload',photosMiddleware.array('photos', 100), uploadPhoto);
-    router.get('/finderdocs', finderDocs);
+    router.get('/finderdocs/:id', finderDocs);
     router.get('/getfinderdocs/:id', getfinderdocs)
     router.get('/paymentdetails', paymentDetails);
     router.get('/processpayment/:id', processPayment);
