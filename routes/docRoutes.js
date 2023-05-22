@@ -5,7 +5,7 @@ const router = express.Router();
 
 const {createDoc, updateDoc, collectDoc, allDocs, getDoc, paydoc,
     createCat, getCat, allCat, uploadPhoto, finderDocs, getfinderdocs,
-processPayment, paymentDetails} = require('../controllers/docController');
+processPayment, paymentDetails, addpaymenteDetails} = require('../controllers/docController');
 const photosMiddleware = multer({dest:'uploads/'});
     router.post('/createdoc', createDoc);
     router.put('/update', updateDoc);
@@ -21,6 +21,7 @@ const photosMiddleware = multer({dest:'uploads/'});
     router.get('/getfinderdocs/:id', getfinderdocs)
     router.get('/paymentdetails', paymentDetails);
     router.get('/processpayment/:id', processPayment);
+    router.post('/addpaydetails', addpaymenteDetails);
 
 
     module.exports = router;

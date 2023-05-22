@@ -72,7 +72,7 @@ const allCat = asyncHandler(async(req, res)=>{
 })
 
 const createDoc = asyncHandler(async(req, res)=>{
-   const{refreshToken} = req.cookies;
+  
    const {doc_type, doc_description, doc_owner
           , doc_fee, doc_images, finder} = req.body;
 
@@ -243,6 +243,22 @@ const uploadPhoto = asyncHandler(async(req,res)=>{
    }
     res.json(uploadedFiles);  
 })
+const addpaymenteDetails = asyncHandler(async(req, res)=>{
+    const {fullname, number, broker} = req.body;
+    try{
+
+        const newdoc = await Payment.create({
+            fullname:fullname,
+            number: number,
+            broker: broker
+        });
+        res.json(newdoc);
+
+    }catch(err){
+      throw new Error(err);
+    }
+})
 
 module.exports = {createDoc, updateDoc, collectDoc, allDocs, getDoc, paydoc,
-                  createCat, processPayment, paymentDetails, getCat, allCat, uploadPhoto, finderDocs, getfinderdocs};
+                  createCat, processPayment, paymentDetails, getCat, allCat, uploadPhoto,
+                   finderDocs, getfinderdocs, addpaymenteDetails};
