@@ -74,12 +74,10 @@ const allCat = asyncHandler(async(req, res)=>{
 const createDoc = asyncHandler(async(req, res)=>{
    const{refreshToken} = req.cookies;
    const {doc_type, doc_description, doc_owner
-          , doc_fee, doc_images} = req.body;
+          , doc_fee, doc_images, finder} = req.body;
 
     try{
 
-        const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
-        const finder = decoded.id;
         const newdoc = await Doc.create({
             doc_type:doc_type,
             doc_description: doc_description,
